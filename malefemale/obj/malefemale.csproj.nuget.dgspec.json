@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "Z:\\iaf\\i.csproj": {}
+    "Z:\\iaf\\malefemale\\malefemale.csproj": {}
   },
   "projects": {
-    "Z:\\iaf\\i.csproj": {
+    "Z:\\iaf\\malefemale\\malefemale.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Z:\\iaf\\i.csproj",
-        "projectName": "i",
-        "projectPath": "Z:\\iaf\\i.csproj",
+        "projectUniqueName": "Z:\\iaf\\malefemale\\malefemale.csproj",
+        "projectName": "malefemale",
+        "projectPath": "Z:\\iaf\\malefemale\\malefemale.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "Z:\\iaf\\obj\\",
+        "outputPath": "Z:\\iaf\\malefemale\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
