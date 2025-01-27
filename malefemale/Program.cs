@@ -20,7 +20,7 @@ class Person
 
 class FORCED
 {
-   static void Distinguish(List<Person> list)
+   static void maleKiFemale(List<Person> list)
     {
     List<Person> male = new List<Person>();
     List<Person> female = new List<Person>();
@@ -63,7 +63,7 @@ static void Main()
         new Person { Id = 6, Name = "El Machio", Gender = "Male" },
      };
 
-    Distinguish(malefemale);
+    maleKiFemale(malefemale);
 }
 }
 
