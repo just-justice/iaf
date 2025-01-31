@@ -1,55 +1,48 @@
-﻿
+﻿using System;
 
-// Create a stack class with Push, Pop and Peek operations
-class Stack
+namespace A3
 {
-    private List<int> items = new List<int>();
-    private const string PopErrorMessage = "Pop from empty stack";
-    private const string PeekErrorMessage = "Peek from empty stack";
-
-    public void Push(int item)
+    public class PushPopPeek : IPushPopPeek
     {
-        // Adds an item to the top of the stack
-        items.Add(item);
-    }
+        private class Node
+        {
+            public int Data;
+            public Node? Next;
+            public Node(int data) => Data = data;
+        }
 
-    public int Pop()
-    {
-        // Returns the top item from the stack
-        if (items.Count == 0)  // Check if the stack is empty directly
-            throw new InvalidOperationException(PopErrorMessage);
+        private Node? top;
 
-        int topItem = items[^1];
-        items.RemoveAt(items.Count - 1);
-        return topItem;
-    }
+        public void Push(int value)
+        {
+            Node newNode = new Node(value);
+            newNode.Next = top;
+            top = newNode;
+        }
 
-    public int Peek()
-    {
-        // Returns the top item without removing it
-        if (items.Count == 0)  // Check if the stack is empty directly
-            throw new InvalidOperationException(PeekErrorMessage);
+        public int Pop()
+        {
+            if (top == null)
+            {
+                Console.WriteLine(Constant.StackEmpty);
+                return -1;
+            }
 
-        return items[^1];
-    }
+            int value = top.Data;
+            top = top.Next;
+            return value;
+        }
 
-    public int Size()
-    {
-        // Returns the number of elements in the stack
-        return items.Count;
-    }
+        public int Peek()
+        {
+            if (top == null)
+            {
+                Console.WriteLine(Constant.StackEmpty);
+                return -1;
+            }
+            return top.Data;
+        }
 
-    // Example usage
-    public static void Main()
-    {
-        Stack stack = new Stack();
-        stack.Push(10);
-        stack.Push(20);
-        stack.Push(30);
-        Console.WriteLine(stack.Peek());  // Output: 30
-        Console.WriteLine(stack.Pop());   // Output: 30
-        Console.WriteLine(stack.Size());  // Output: 2
+        public bool IsEmpty() => top == null;
     }
 }
-
-

@@ -1,0 +1,6 @@
+Z:\iaf\A3\obj\Debug\net9.0\A3.csproj.AssemblyReference.cache
+Z:\iaf\A3\obj\Debug\net9.0\A3.GeneratedMSBuildEditorConfig.editorconfig
+Z:\iaf\A3\obj\Debug\net9.0\A3.AssemblyInfoInputs.cache
+Z:\iaf\A3\obj\Debug\net9.0\A3.AssemblyInfo.cs
+Z:\iaf\A3\obj\Debug\net9.0\A3.csproj.CoreCompileInputs.cache
+Z:\iaf\A3\obj\Debug\net9.0\A3.sourcelink.json

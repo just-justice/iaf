@@ -7,4 +7,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+   <ItemGroup>
+    <Compile Include="A3\*.cs" />
+  </ItemGroup>
+
+   <ItemGroup>
+     <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8" />
+   </ItemGroup>
+
 </Project>
