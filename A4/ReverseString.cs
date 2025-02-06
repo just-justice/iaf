@@ -21,6 +21,6 @@ class Program
     {
         string original = "110101";
         string reversed = original.ReverseString();
-        Console.WriteLine(reversed); // Output: 101011
+        Console.WriteLine(reversed);
     }
 }

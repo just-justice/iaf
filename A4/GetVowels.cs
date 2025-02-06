@@ -14,7 +14,7 @@ public static class StringExtensions
         {
             if ("AEIOUaeiou".IndexOf(c) >= 0)
             {
-                 vowels += c;
+                vowels += c;
             }
         }
         return vowels;
@@ -25,8 +25,7 @@ class Program
 {
     static void Main()
     {
-        // Example usage of GetVowels()
-        string vowels = "hello world".GetVowels();
-        Console.WriteLine(vowels); // Output: eoo
+        string vowels = "abcdefghijklmnop".GetVowels();
+        Console.WriteLine(vowels);
     }
 }
