@@ -1,0 +1,14 @@
+@model DFPokédex.Models.DevilFruit
+
+<h3>Are you sure you want to delete this row?</h3>
+
+<p>Name:</strong> @Model.Name</p>
+<p>User:</strong> @Model.User</p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit">Delete</button>
+</form>
+
+<br/>
+<a href="/DevilFruits/Index">Back to List</a>

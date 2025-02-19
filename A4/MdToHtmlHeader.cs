@@ -26,9 +26,17 @@ public static class MarkdownConverter
             {
                 sb.Append("<h3>").Append(trimmedLine.Substring(4)).Append("</h3>\n");
             }
-            else
+            else if (trimmedLine.StartsWith("#### "))
             {
-                sb.Append("<p>").Append(trimmedLine).Append("</p>\n");
+                sb.Append("<h4>").Append(trimmedLine.Substring(5)).Append("</h4>\n");
+            }
+            else if (trimmedLine.StartsWith("##### "))
+            {
+                sb.Append("<h5>").Append(trimmedLine.Substring(6)).Append("</h5>\n");
+            }
+            else if (trimmedLine.StartsWith("###### "))
+            {
+                sb.Append("<h6>").Append(trimmedLine.Substring(7)).Append("</h6>\n");
             }
         }
         
