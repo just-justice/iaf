@@ -1,0 +1,41 @@
+@model List<A7mvc.Models.User>
+@{
+    ViewData["Title"] = "Dashboard";
+    string loggedInUsername = ViewBag.LoggedInUsername;
+}
+<h1>User Dashboard</h1>
+
+<table style="width: 100%; border-collapse: collapse; text-align: left;" border="1">
+    <thead>
+        <tr>
+            <th style="padding: 8px;">Username</th>
+            <th style="padding: 8px;">Age</th>
+            <th style="padding: 8px;">Donation (Nrs.)</th>
+            <th style="padding: 8px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td style="padding: 8px;">@user.Username</td>
+                <td style="padding: 8px;">@user.Age</td>
+                <td style="padding: 8px;">@user.Donation</td>
+                <td style="padding: 8px;">
+                    @if (user.Username == loggedInUsername)
+                    {
+                        <form method="post" action="/Account/EditDonation" style="display: flex; align-items: center; gap: 5px;">
+                            <input type="hidden" name="username" value="@user.Username" />
+                            <input type="number" name="donation" value="@user.Donation" style="width: 100px;" required />
+                            <button type="submit" style="cursor: pointer;">Update</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span style="font-style: italic;">Not your data</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

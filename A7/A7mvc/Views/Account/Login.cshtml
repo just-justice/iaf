@@ -1,0 +1,26 @@
+@model dynamic
+@{
+    ViewData["Title"] = "Login";
+}
+<h1>Login</h1>
+
+<div style="width: 300px; margin: 0 auto; text-align: left;">
+    <form method="post" style="display: flex; flex-direction: column; gap: 10px;">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required style="padding: 5px; width: 100%;" />
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required style="padding: 5px; width: 100%;" />
+
+        <button type="submit" style="cursor: pointer; padding: 8px; border: none;">Login</button>
+    </form>
+
+    <p style="margin-top: 10px; text-align: center;">
+        Don't have an account? <a href="/Account/CreateAccount">Create one</a>
+    </p>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <p style="color: red; text-align: center; margin-top: 10px;">Invalid username or password</p>
+    }
+</div>
