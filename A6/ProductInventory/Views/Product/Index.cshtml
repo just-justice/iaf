@@ -1,0 +1,30 @@
+@model List<Product>
+
+<h2>Product List</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Unit</th>
+            <th>Quantity</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td>@Model[i].Name</td>
+                <td>@Model[i].Unit</td>
+                <td>@Model[i].Quantity</td>
+                <td>@Model[i].Description</td>
+                <td>
+                    <!-- Edit button -->
+                    <a href="@Url.Action("Edit", "Product", new { id = i })">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
