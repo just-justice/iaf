@@ -1,0 +1,27 @@
+﻿@model A7mvc.Entity.ProductCategory
+
+@{
+    ViewData["Title"] = "Edit Product Category";
+}
+
+<h2>Edit Product Category</h2>
+
+<form asp-controller="TestApi" asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input asp-for="Name" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Active Status</label>
+        <select asp-for="IsActive" class="form-control">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
