@@ -1,29 +1,27 @@
-﻿@model A7mvc.Entity.ProductCategory
+﻿@model A7mvc.ViewModels.ProductCategoryViewModel
 
-@{
-    ViewData["Title"] = "Add Product Category";
-}
+<h2>Add Product</h2>
 
-<h2>Add Product Category</h2>
+<form asp-action="Add" method="post">
+    <div class="mb-3">
+        <label class="form-label">ID</label>
+        <input asp-for="Id" class="form-control" required />
+        <span asp-validation-for="Id" class="text-danger"></span>
+    </div>
 
-<form asp-action="AddProduct" method="post">
-    <div class="form-group">
-        <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input asp-for="Name" class="form-control" required />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
-    <!-- IsActive Field (Dropdown for True/False) -->
-    <div class="form-group">
-        <label asp-for="IsActive" class="control-label">Active Status</label>
+    <div class="mb-3">
+        <label class="form-label">Active Status</label>
         <select asp-for="IsActive" class="form-control">
             <option value="true">True</option>
             <option value="false">False</option>
         </select>
-        <span asp-validation-for="IsActive" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Add Product</button>
+    <button type="submit" class="btn btn-success">Add Product</button>
 </form>
-
-<a href="@Url.Action("Index", "TestApi")" class="btn btn-secondary">Back to List</a>

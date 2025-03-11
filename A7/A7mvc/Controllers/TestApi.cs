@@ -1,5 +1,10 @@
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Transactions;
 using A7mvc.Data;
 using A7mvc.Entity;
+using A7mvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,85 +12,146 @@ namespace A7mvc.Controllers
 {
     public class TestApiController : Controller
     {
-        private readonly FirstRunDbContext dbContext;
+        private readonly FirstRunDbContext _dbContext;
 
         public TestApiController(FirstRunDbContext dbContext)
         {
-            this.dbContext = dbContext;
+            _dbContext = dbContext;
         }
 
-        // Index Action (Displays List of Product Categories)
-        public async Task<IActionResult> Index()
+        // Read action - fetching and passing the list of products to the view
+        public async Task<IActionResult> Read()
         {
-            var categories = await dbContext.ProductCategories.ToListAsync();
-            return View("~/Views/ReadUpdate/Read.cshtml", categories);
+            var products = await _dbContext.ProductCategories.ToListAsync();
+            return View("~/Views/ReadUpdate/Read.cshtml", products); // Pass data to the view
         }
 
-        // Add Product (GET)
+        // Add action - return the Add page
         public IActionResult Add()
         {
             return View("~/Views/ReadUpdate/Add.cshtml");
         }
 
-        // Add Product (POST)
+        // Add POST action - handle adding new product
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProduct(ProductCategory newProduct)
+        public async Task<IActionResult> Add(ProductCategoryViewModel model)
         {
             if (ModelState.IsValid)
             {
-                newProduct.CreatedAt = DateTime.UtcNow; // Set created date
-                dbContext.ProductCategories.Add(newProduct);
-                await dbContext.SaveChangesAsync();
-                return RedirectToAction(nameof(Index)); // Redirect back to product list
+                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    try
+                    {
+                        // Ensure the ID is unique
+                        var exists = await _dbContext.ProductCategories.AnyAsync(p => p.Id == model.Id);
+                        if (exists)
+                        {
+                            ModelState.AddModelError("Id", "ID must be unique.");
+                            return View("~/Views/ReadUpdate/Add.cshtml", model); // Return to Add page
+                        }
+
+                        var product = new ProductCategory
+                        {
+                            Id = model.Id,
+                            Name = model.Name,
+                            IsActive = model.IsActive,
+                            CreatedAt = DateTime.UtcNow
+                        };
+
+                        _dbContext.ProductCategories.Add(product);
+                        await _dbContext.SaveChangesAsync();
+
+                        scope.Complete(); // Commit the transaction
+                        return RedirectToAction("Read"); // Redirect to Read page after success
+                    }
+                    catch
+                    {
+                        ModelState.AddModelError("", "An error occurred while saving the product.");
+                    }
+                }
             }
-            return View("~/Views/ReadUpdate/Add.cshtml", newProduct); // If validation fails, stay on the form
+            return View("~/Views/ReadUpdate/Add.cshtml", model); // If invalid, return to Add page
         }
 
-        // Edit Product (GET)
+        // Edit action - fetch and show product details in the Edit form
         public async Task<IActionResult> Edit(int id)
         {
-            var productCategory = await dbContext.ProductCategories.FindAsync(id);
-            if (productCategory == null)
+            var product = await _dbContext.ProductCategories.FindAsync(id);
+            if (product == null)
             {
                 return NotFound();
             }
-            return View("~/Views/ReadUpdate/Edit.cshtml", productCategory);
+
+            var model = new ProductCategoryViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                IsActive = product.IsActive
+            };
+
+            return View("~/Views/ReadUpdate/Edit.cshtml", model); // Return Edit view with the product data
         }
 
-        // Edit Product (POST)
+        // Edit POST action - handle updating the product
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditProduct(int id, ProductCategory updatedProduct)
+        public async Task<IActionResult> Edit(ProductCategoryViewModel model)
         {
-            if (id != updatedProduct.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                dbContext.Update(updatedProduct);
-                await dbContext.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    try
+                    {
+                        var existingProduct = await _dbContext.ProductCategories.FindAsync(model.Id);
+                        if (existingProduct == null)
+                        {
+                            return NotFound();
+                        }
+
+                        existingProduct.Name = model.Name;
+                        existingProduct.IsActive = model.IsActive;
+
+                        _dbContext.ProductCategories.Update(existingProduct);
+                        await _dbContext.SaveChangesAsync();
+
+                        scope.Complete(); // Commit the transaction
+                        return RedirectToAction("Read"); // Redirect to Read page after update
+                    }
+                    catch
+                    {
+                        ModelState.AddModelError("", "An error occurred while updating the product.");
+                    }
+                }
             }
-            return View("~/Views/ReadUpdate/Edit.cshtml", updatedProduct);
+            return View("~/Views/ReadUpdate/Edit.cshtml", model); // Return to Edit page if validation fails
         }
 
-        // Delete Product (POST)
+        // Delete action - handle deleting a product
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var productCategory = await dbContext.ProductCategories.FindAsync(id);
-            if (productCategory == null)
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                return NotFound();
-            }
+                try
+                {
+                    var product = await _dbContext.ProductCategories.FindAsync(id);
+                    if (product == null)
+                    {
+                        return NotFound();
+                    }
 
-            dbContext.ProductCategories.Remove(productCategory);
-            await dbContext.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                    _dbContext.ProductCategories.Remove(product);
+                    await _dbContext.SaveChangesAsync();
+
+                    scope.Complete(); // Commit the transaction
+                    return RedirectToAction("Read"); // Redirect to Read page after deletion
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "An error occurred while deleting the product.");
+                }
+            }
+            return RedirectToAction("Read"); // Redirect to Read page if any error
         }
     }
 }

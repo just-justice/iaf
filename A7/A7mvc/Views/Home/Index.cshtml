@@ -1,11 +1,26 @@
 ﻿@{
     ViewData["Title"] = "Home";
 }
-<h1>Welcome to A7mvc</h1>
-<p>Instructions on how to use the website:</p>
-<ul>
-    <li>Login with your username and password.</li>
-    <li>If you don’t have an account, create one.</li>
-    <li>After logging in, you will see a table with users.</li>
-</ul>
-<a href="/Account/Login">Go to Login</a>
+
+<div class="container text-center">
+    <h1 class="display-4">Welcome to A7mvc</h1>
+    <p class="lead">Manage users and products with ease.</p>
+
+    <hr />
+
+    <h3>How to Use the Website</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <ul class="list-group text-start">
+                <li class="list-group-item"> <strong>Login:</strong> Enter your username and password.</li>
+                <li class="list-group-item"> <strong>Sign Up:</strong> If you don’t have an account, create one.</li>
+                <li class="list-group-item"> <strong>Manage Users:</strong> After logging in, view and manage users.</li>
+                <li class="list-group-item"> <strong>Manage Products:</strong> View, add, edit, and delete product categories.</li>
+            </ul>
+        </div>
+    </div>
+
+    <br />
+
+    <a href="/Account/Login" class="btn btn-primary btn-lg">Go to Login</a>
+</div>

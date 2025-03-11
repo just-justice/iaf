@@ -11,5 +11,5 @@ public class Product
     public bool IsActive { get; set; }
     public DateTime? CreatedAt { get; set; }
     public int CategoryId { get; set; }
-    public ProductCategory Category { get; set; } //NAVIGATION PROPERTY
+    public required ProductCategory Category { get; set; } //NavigationProperty
 }
