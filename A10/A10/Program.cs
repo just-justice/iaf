@@ -16,8 +16,8 @@ builder.Services.AddControllers();
 builder.Services.AddApiVersioning(options =>
 {
     options.AssumeDefaultVersionWhenUnspecified = true;
-    options.DefaultApiVersion = new ApiVersion(1, 0); // Default API version
-    options.ReportApiVersions = true; // Adds API versions to response headers
+    options.DefaultApiVersion = new ApiVersion(1, 0); 
+    options.ReportApiVersions = true; 
     options.ApiVersionReader = ApiVersionReader.Combine(
             new UrlSegmentApiVersionReader(),
             new QueryStringApiVersionReader("api-version"),
